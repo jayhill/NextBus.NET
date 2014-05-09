@@ -36,15 +36,22 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiCommands\Infrastructure\X.cs" />
     <Compile Include="ApiCommands\Infrastructure\CommandResponse.cs" />
+    <Compile Include="ApiCommands\RouteConfigCommand.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="ApiCommands\Infrastructure\CommandBase.cs" />
     <Compile Include="ApiCommands\Infrastructure\CommandConstants.cs" />
     <Compile Include="ApiCommands\Infrastructure\QueryArgument.cs" />
+    <Compile Include="Infrastructure\NextBusException.cs" />
+    <Compile Include="Infrastructure\XmlParseException.cs" />
     <Compile Include="NextBusApi.cs" />
     <Compile Include="ApiCommands\RouteListCommand.cs" />
     <Compile Include="Entities\Route.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\DictionaryExtensions.cs" />
+    <Compile Include="Util\Null.cs" />
+    <Compile Include="Util\XExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -47,8 +47,9 @@ namespace NextBus.NET.ApiCommands.Infrastructure
         /// <summary>
         /// Gets the request stream asynchronously.
         /// </summary>
-        protected virtual async Task<XElement> GetResponseAsync(Uri uri)
+        protected virtual async Task<XElement> GetResponseAsync()
         {
+            var uri = ConstructUri();
             var webRequest = WebRequest.CreateHttp(uri);
 
             using (var webResponse = await Task.Factory.FromAsync(

@@ -26,7 +26,12 @@
         /// The NextBus agency tag.
         /// </summary>
         /// <example>sf-muni for San Francisco Municipal Transportation Agency</example>
-        public static string AgencyTag { get; set; }
+        public static string AgencyTag
+        {
+            get { return _agencyTag ?? "sf-muni"; }
+            set { _agencyTag = value; }
+        }
+        private static string _agencyTag;
 
         /// <summary>
         /// The base URI/URL for accessing the NextBus API.

@@ -16,5 +16,16 @@
             }
             return await command.Execute();
         }
+
+        public async Task<Route> RouteConfig(string routeTag, string agencyTag = null)
+        {
+            var command = new RouteConfigCommand(routeTag);
+            if (agencyTag != null)
+            {
+                command.AgencyTag = agencyTag;
+            }
+
+            return await command.Execute();
+        }
     }
 }

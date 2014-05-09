@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using NextBus.NET.Entities;
+using NextBus.NET.Util;
 
 namespace NextBus.NET.ApiCommands
 {
@@ -17,22 +17,13 @@ namespace NextBus.NET.ApiCommands
 
         public override async Task<IEnumerable<Route>> Execute()
         {
-            var body = await GetResponseAsync(ConstructUri());
-            return body.Elements("route").Select(BuildRoute).ToList();
+            var body = await GetResponseAsync();
+            return body.Elements(X.Route).Select(r => new Route
+                {
+                    Tag = r.GetAttributeValue(X.Tag),
+                    Title = r.GetAttributeValue(X.Title),
+                    ShortTitle = r.GetAttributeValue(X.ShortTitle)
+                }).ToList();
         }
-
-        private static Route BuildRoute(XElement routeElement)
-        {
-            var shortTitleAttribute = routeElement.Attribute("shortTitle");
-            var shortTitle = shortTitleAttribute == null ? null : shortTitleAttribute.Value;
-
-            return new Route
-            {
-                Tag = routeElement.Attribute("tag").Value,
-                Title = routeElement.Attribute("title").Value,
-                ShortTitle = shortTitle
-            };
-        }
-
     }
 }
