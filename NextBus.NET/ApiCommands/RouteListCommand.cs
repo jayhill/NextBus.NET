@@ -18,11 +18,11 @@ namespace NextBus.NET.ApiCommands
         public override async Task<IEnumerable<Route>> Execute()
         {
             var body = await GetResponseAsync();
-            return body.Elements(X.Route).Select(r => new Route
+            return body.Elements(NextBusName.Route).Select(r => new Route
                 {
-                    Tag = r.GetAttributeValue(X.Tag),
-                    Title = r.GetAttributeValue(X.Title),
-                    ShortTitle = r.GetAttributeValue(X.ShortTitle)
+                    Tag = r.GetAttributeValue(NextBusName.Tag),
+                    Title = r.GetAttributeValue(NextBusName.Title),
+                    ShortTitle = r.GetAttributeValue(NextBusName.ShortTitle)
                 }).ToList();
         }
     }

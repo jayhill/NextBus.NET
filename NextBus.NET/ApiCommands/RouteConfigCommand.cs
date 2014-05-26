@@ -22,10 +22,10 @@ namespace NextBus.NET.ApiCommands
         public override async Task<Route> Execute()
         {
             var body = await GetResponseAsync();
-            var error = body.Element(X.Error);
+            var error = body.Element(NextBusName.Error);
             if (error != null)
             {
-                if (error.GetAttributeValue(X.ShouldRetry, bool.Parse))
+                if (error.GetAttributeValue(NextBusName.ShouldRetry, bool.Parse))
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1));
                     return await Execute();
@@ -33,7 +33,7 @@ namespace NextBus.NET.ApiCommands
                 throw new NextBusException(error.Value);
             }
 
-            var route = BuildRoute(body.Element(X.Route));
+            var route = BuildRoute(body.Element(NextBusName.Route));
             return route;
         }
 
@@ -56,59 +56,59 @@ namespace NextBus.NET.ApiCommands
         {
             var result = new Route
             {
-                Tag = routeElement.GetAttributeValue(X.Tag),
-                Title = routeElement.GetAttributeValue(X.Title),
-                ShortTitle = routeElement.GetAttributeValue(X.ShortTitle),
-                ColorHex = routeElement.GetAttributeValue(X.Color),
-                OppositeColorHex = routeElement.GetAttributeValue(X.OppositeColor)
+                Tag = routeElement.GetAttributeValue(NextBusName.Tag),
+                Title = routeElement.GetAttributeValue(NextBusName.Title),
+                ShortTitle = routeElement.GetAttributeValue(NextBusName.ShortTitle),
+                ColorHex = routeElement.GetAttributeValue(NextBusName.Color),
+                OppositeColorHex = routeElement.GetAttributeValue(NextBusName.OppositeColor)
             };
 
-            var stopElements = routeElement.Elements(X.Stop);
+            var stopElements = routeElement.Elements(NextBusName.Stop);
             if (stopElements != Null.OrEmpty)
             {
                 result.Stops = stopElements.Select(s =>
                     new Stop
                     {
-                        Tag = s.GetAttributeValue(X.Tag),
-                        Title = s.GetAttributeValue(X.Title),
-                        ShortTitle = s.GetAttributeValue(X.ShortTitle),
-                        StopId = s.GetAttributeValue(X.StopId, int.Parse),
-                        Lat = s.GetAttributeValue(X.Lat, double.Parse),
-                        Lon = s.GetAttributeValue(X.Lon, double.Parse)
+                        Tag = s.GetAttributeValue(NextBusName.Tag),
+                        Title = s.GetAttributeValue(NextBusName.Title),
+                        ShortTitle = s.GetAttributeValue(NextBusName.ShortTitle),
+                        StopId = s.GetAttributeValue(NextBusName.StopId, int.Parse),
+                        Lat = s.GetAttributeValue(NextBusName.Lat, double.Parse),
+                        Lon = s.GetAttributeValue(NextBusName.Lon, double.Parse)
                     }).ToList();
             }
 
             var stopLookup = (result.Stops ?? Enumerable.Empty<Stop>())
                 .ToDictionary(s => s.Tag);
 
-            var dirElements = routeElement.Elements(X.Direction);
+            var dirElements = routeElement.Elements(NextBusName.Direction);
             if (dirElements != Null.OrEmpty)
             {
                 result.Directions = dirElements.Select(d =>
                     new Direction
                     {
-                        Tag = d.GetAttributeValue(X.Tag),
-                        Title = d.GetAttributeValue(X.Title),
-                        Name = d.GetAttributeValue(X.Name),
-                        UseForUi = d.GetAttributeValue(X.UseForUi, bool.Parse),
-                        Stops = d.Elements(X.Stop).Select(stop => 
-                            stopLookup.NullSafeGet(stop.GetAttributeValue(X.Tag)))
+                        Tag = d.GetAttributeValue(NextBusName.Tag),
+                        Title = d.GetAttributeValue(NextBusName.Title),
+                        Name = d.GetAttributeValue(NextBusName.Name),
+                        UseForUi = d.GetAttributeValue(NextBusName.UseForUi, bool.Parse),
+                        Stops = d.Elements(NextBusName.Stop).Select(stop => 
+                            stopLookup.NullSafeGet(stop.GetAttributeValue(NextBusName.Tag)))
                             .Where(x => x != null)
                             .ToList()
                     }).ToList();
             }
 
-            var pathElements = routeElement.Elements(X.Path);
+            var pathElements = routeElement.Elements(NextBusName.Path);
             if (pathElements != Null.OrEmpty)
             {
                 result.Paths = pathElements.Select(p =>
                     new Path
                     {
-                        Points = p.Elements(X.Point).Select(pnt =>
+                        Points = p.Elements(NextBusName.Point).Select(pnt =>
                             new Point
                             {
-                                Lat = pnt.GetAttributeValue(X.Lat, double.Parse),
-                                Lon = pnt.GetAttributeValue(X.Lon, double.Parse),
+                                Lat = pnt.GetAttributeValue(NextBusName.Lat, double.Parse),
+                                Lon = pnt.GetAttributeValue(NextBusName.Lon, double.Parse),
                             }).ToList()
                     }).ToList();
             }

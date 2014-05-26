@@ -1,9 +1,8 @@
-﻿using System;
-using NextBus.NET.Infrastructure;
-
-namespace NextBus.NET.Util
+﻿namespace NextBus.NET.Util
 {
+    using System;
     using System.Xml.Linq;
+    using Infrastructure;
 
     public static class XExtensions
     {

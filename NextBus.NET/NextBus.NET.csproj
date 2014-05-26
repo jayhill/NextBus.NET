@@ -36,13 +36,21 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiCommands\Infrastructure\X.cs" />
+    <Compile Include="ApiCommands\Infrastructure\NextBusName.cs" />
     <Compile Include="ApiCommands\Infrastructure\CommandResponse.cs" />
+    <Compile Include="Entities\Direction.cs" />
+    <Compile Include="Entities\Message.cs" />
+    <Compile Include="Entities\Path.cs" />
+    <Compile Include="Entities\Point.cs" />
+    <Compile Include="Entities\Prediction.cs" />
+    <Compile Include="Entities\Predictions.cs" />
+    <Compile Include="ApiCommands\PredictionsCommand.cs" />
     <Compile Include="ApiCommands\RouteConfigCommand.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="ApiCommands\Infrastructure\CommandBase.cs" />
     <Compile Include="ApiCommands\Infrastructure\CommandConstants.cs" />
     <Compile Include="ApiCommands\Infrastructure\QueryArgument.cs" />
+    <Compile Include="Entities\Stop.cs" />
     <Compile Include="Infrastructure\NextBusException.cs" />
     <Compile Include="Infrastructure\XmlParseException.cs" />
     <Compile Include="NextBusApi.cs" />
