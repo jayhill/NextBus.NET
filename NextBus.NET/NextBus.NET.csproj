@@ -40,6 +40,7 @@
     <Compile Include="ApiCommands\Infrastructure\CommandResponse.cs" />
     <Compile Include="ApiCommands\Infrastructure\StandardBuilders.cs" />
     <Compile Include="ApiCommands\PredictionsForMultiStopsCommand.cs" />
+    <Compile Include="ApiCommands\ScheduleCommand.cs" />
     <Compile Include="Entities\Direction.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\Path.cs" />
@@ -52,8 +53,12 @@
     <Compile Include="ApiCommands\Infrastructure\CommandBase.cs" />
     <Compile Include="ApiCommands\Infrastructure\CommandConstants.cs" />
     <Compile Include="ApiCommands\Infrastructure\QueryArgument.cs" />
+    <Compile Include="Entities\RouteSchedule.cs" />
+    <Compile Include="Entities\RouteSchedules.cs" />
+    <Compile Include="Entities\ScheduledStop.cs" />
     <Compile Include="Entities\Stop.cs" />
     <Compile Include="Entities\StopArg.cs" />
+    <Compile Include="Entities\Trip.cs" />
     <Compile Include="Infrastructure\NextBusException.cs" />
     <Compile Include="Infrastructure\XmlParseException.cs" />
     <Compile Include="NextBusApi.cs" />

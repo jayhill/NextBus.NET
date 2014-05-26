@@ -1,4 +1,6 @@
-﻿namespace NextBus.NET
+﻿using System;
+
+namespace NextBus.NET
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -82,6 +84,17 @@
         public async Task<IEnumerable<Predictions>> PredictionsForMultiStops(params StopArg[] stops)
         {
             return await PredictionsForMultiStops(null, false, stops);
+        }
+
+        public async Task<RouteSchedules> Schedule(string routeTag, DateTime date, string agencyTag = null)
+        {
+            var command = new ScheduleCommand(routeTag);
+            if (agencyTag != null)
+            {
+                command.AgencyTag = agencyTag;
+            }
+
+            return await command.Execute();
         }
     }
 }
