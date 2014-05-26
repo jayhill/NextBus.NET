@@ -4,6 +4,12 @@ namespace NextBus.NET.Entities
 {
     public class Predictions
     {
+        public Predictions()
+        {
+            Directions = new List<Direction>();
+            Messages = new List<Message>();
+        }
+
         public string AgencyTitle { get; set; }
         public string RouteTag { get; set; }
         public string RouteTitle { get; set; }

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using NextBus.NET.ApiCommands.Infrastructure;
 using NextBus.NET.Entities;
-using NextBus.NET.Infrastructure;
 using NextBus.NET.Util;
 
 namespace NextBus.NET.ApiCommands
@@ -19,22 +17,9 @@ namespace NextBus.NET.ApiCommands
             _routeTag = routeTag;
         }
 
-        public override async Task<Route> Execute()
+        public override Route ConstructResultFrom(XElement body)
         {
-            var body = await GetResponseAsync();
-            var error = body.Element(NextBusName.Error);
-            if (error != null)
-            {
-                if (error.GetAttributeValue(NextBusName.ShouldRetry, bool.Parse))
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(1));
-                    return await Execute();
-                }
-                throw new NextBusException(error.Value);
-            }
-
-            var route = BuildRoute(body.Element(NextBusName.Route));
-            return route;
+            return BuildRoute(body.Element(NextBusName.Route));
         }
 
         public override string Command

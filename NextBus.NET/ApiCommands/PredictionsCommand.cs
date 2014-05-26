@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using NextBus.NET.ApiCommands.Infrastructure;
-using NextBus.NET.Entities;
-using NextBus.NET.Infrastructure;
-using NextBus.NET.Util;
-
-namespace NextBus.NET.ApiCommands
+﻿namespace NextBus.NET.ApiCommands
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Xml.Linq;
+    using Infrastructure;
+    using Entities;
+    using Util;
+
     public class PredictionsCommand : CommandBase<Predictions>
     {
-        private static readonly DateTime EpochStart = new DateTime(1970,1,1,0,0,0,0, DateTimeKind.Utc);
 
         private readonly int? _stopId;
         private readonly string _routeTag;
@@ -31,22 +28,9 @@ namespace NextBus.NET.ApiCommands
 
         public bool UseShortTitles { get; set; }
 
-        public override async Task<Predictions> Execute()
+        public override Predictions ConstructResultFrom(XElement body)
         {
-            var body = await GetResponseAsync();
-            var error = body.Element(NextBusName.Error);
-            if (error != null)
-            {
-                if (error.GetAttributeValue(NextBusName.ShouldRetry, bool.Parse))
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(1));
-                    return await Execute();
-                }
-                throw new NextBusException(error.Value);
-            }
-
-            var predictions = BuildPredictions(body.Element(NextBusName.Predictions));
-            return predictions;
+            return BuildPredictions(body.Element(NextBusName.Predictions));
         }
 
         protected override IEnumerable<QueryArgument> GetQueryArguments()
@@ -96,7 +80,8 @@ namespace NextBus.NET.ApiCommands
                     new Direction
                     {
                         Title = d.GetAttributeValue(NextBusName.Title),
-                        Predictions = d.Elements(NextBusName.Prediction).Select(BuildPrediction).ToList()
+                        Predictions = d.Elements(NextBusName.Prediction)
+                            .Select(StandardBuilders.BuildPrediction).ToList()
                     }).ToList();
             }
 
@@ -106,27 +91,6 @@ namespace NextBus.NET.ApiCommands
                 result.Messages = messageElements.Select(m =>
                     new Message {Text = m.GetAttributeValue(NextBusName.Text)})
                     .ToList();
-            }
-
-            return result;
-        }
-
-        private static Prediction BuildPrediction(XElement predictionElement)
-        {
-            var result = new Prediction
-            {
-                Seconds = predictionElement.GetAttributeValue(NextBusName.Seconds, int.Parse),
-                Minutes = predictionElement.GetAttributeValue(NextBusName.Minutes, int.Parse),
-                IsDeparture = predictionElement.GetAttributeValue(NextBusName.IsDeparture, bool.Parse),
-                DirectionTag = predictionElement.GetAttributeValue(NextBusName.DirectionTag),
-                Block = predictionElement.GetAttributeValue(NextBusName.Block)
-            };
-
-            var epochAttribute = predictionElement.Attribute(NextBusName.EpochTime);
-            if (epochAttribute != null)
-            {
-                var epochTime = predictionElement.GetAttributeValue(NextBusName.EpochTime, long.Parse);
-                result.DateTimeUtc = EpochStart.AddSeconds(epochTime);
             }
 
             return result;

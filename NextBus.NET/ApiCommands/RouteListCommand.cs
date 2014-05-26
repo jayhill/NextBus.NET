@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Xml.Linq;
 using NextBus.NET.Entities;
 using NextBus.NET.Util;
 
@@ -15,9 +15,8 @@ namespace NextBus.NET.ApiCommands
             get { return CommandConstants.RouteList; }
         }
 
-        public override async Task<IEnumerable<Route>> Execute()
+        public override IEnumerable<Route> ConstructResultFrom(XElement body)
         {
-            var body = await GetResponseAsync();
             return body.Elements(NextBusName.Route).Select(r => new Route
                 {
                     Tag = r.GetAttributeValue(NextBusName.Tag),

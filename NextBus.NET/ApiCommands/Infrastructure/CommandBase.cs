@@ -1,18 +1,35 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
+using NextBus.NET.Infrastructure;
+using NextBus.NET.Util;
 
 namespace NextBus.NET.ApiCommands.Infrastructure
 {
     public abstract class CommandBase<TResult> : CommandBase
     {
-        public abstract Task<TResult> Execute();
+        public virtual async Task<TResult> Execute()
+        {
+            var body = await GetResponseAsync();
+            var error = body.Element(NextBusName.Error);
+            if (error != null)
+            {
+                if (error.GetAttributeValue(NextBusName.ShouldRetry, bool.Parse))
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                    return await Execute();
+                }
+                throw new NextBusException(error.Value);
+            }
+
+            return ConstructResultFrom(body);
+        }
+
+        public abstract TResult ConstructResultFrom(XElement body);
     }
 
     public abstract class CommandBase

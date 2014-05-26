@@ -35,6 +35,7 @@ namespace NextBus.NET.ApiCommands.Infrastructure
         public const string ShortTitle = "shortTitle";
         public const string ShouldRetry = "shouldRetry";
         public const string Stop = "stop";
+        public const string Stops = "stops";
         public const string StopId = "stopId";
         public const string StopTitle = "stopTitle";
         public const string UseForUi = "useForUI";
