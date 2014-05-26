@@ -1,9 +1,8 @@
-﻿using System.Xml.Linq;
-
-namespace NextBus.NET.ApiCommands.Infrastructure
+﻿namespace NextBus.NET.ApiCommands.Infrastructure
 {
     public class NextBusName
     {
+        public const string AffectedByLayover = "affectedByLayover";
         public const string AgencyTitle = "agencyTitle";
         public const string Block = "block";
         public const string BlockId = "blockID";
@@ -25,6 +24,7 @@ namespace NextBus.NET.ApiCommands.Infrastructure
         public const string Point = "point";
         public const string Prediction = "prediction";
         public const string Predictions = "predictions";
+        public const string Priority = "priority";
         public const string Route = "route";
         public const string RouteCode = "routeCode";
         public const string RouteTag = "routeTag";
@@ -45,5 +45,6 @@ namespace NextBus.NET.ApiCommands.Infrastructure
         public const string Trip = "tr";
         public const string UseForUi = "useForUI";
         public const string UseShortTitles = "useShortTitles";
+        public const string VehicleId = "vehicle";
     }
 }

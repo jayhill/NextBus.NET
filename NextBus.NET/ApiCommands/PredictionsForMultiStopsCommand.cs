@@ -6,7 +6,6 @@ namespace NextBus.NET.ApiCommands
     using System.Xml.Linq;
     using Infrastructure;
     using Entities;
-    using Util;
 
     public class PredictionsForMultiStopsCommand : CommandBase<IEnumerable<Predictions>>
     {
@@ -44,35 +43,15 @@ namespace NextBus.NET.ApiCommands
 
         public override IEnumerable<Predictions> ConstructResultFrom(XElement body)
         {
-            var directionElements = body.Elements(NextBusName.Direction);
-            if (directionElements == Null.OrEmpty)
+            var predictionsElements = body.Elements(NextBusName.Predictions);
+            if (predictionsElements == Null.OrEmpty)
             {
                 yield break;
             }
 
-            foreach (var direction in directionElements)
+            foreach (var predictions in predictionsElements.Select(StandardBuilders.BuildPredictions))
             {
-                var predictionsElement = direction.Element(NextBusName.Predictions);
-                if (predictionsElement == null)
-                {
-                    continue;
-                }
-
-                var result = new Predictions
-                {
-                    RouteCode = predictionsElement.GetAttributeValue(NextBusName.RouteCode),
-                    RouteTitle = predictionsElement.GetAttributeValue(NextBusName.RouteTitle),
-                    StopTitle = predictionsElement.GetAttributeValue(NextBusName.StopTitle),
-                };
-
-                result.Directions.Add(new Direction
-                {
-                    Title = direction.GetAttributeValue(NextBusName.Title),
-                    Predictions = predictionsElement.Elements(NextBusName.Prediction)
-                        .Select(StandardBuilders.BuildPrediction).ToList()
-                });
-
-                yield return result;
+                yield return predictions;
             }
         }
     }

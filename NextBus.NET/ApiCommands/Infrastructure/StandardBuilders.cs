@@ -1,10 +1,11 @@
-﻿using System;
-using System.Xml.Linq;
-using NextBus.NET.Entities;
-using NextBus.NET.Util;
-
-namespace NextBus.NET.ApiCommands.Infrastructure
+﻿namespace NextBus.NET.ApiCommands.Infrastructure
 {
+    using System;
+    using System.Linq;
+    using System.Xml.Linq;
+    using Entities;
+    using Util;
+
     public class StandardBuilders
     {
         private static readonly DateTime EpochStart = new DateTime(1970,1,1,0,0,0,0, DateTimeKind.Utc);
@@ -16,15 +17,57 @@ namespace NextBus.NET.ApiCommands.Infrastructure
                 Seconds = predictionElement.GetAttributeValue(NextBusName.Seconds, int.Parse),
                 Minutes = predictionElement.GetAttributeValue(NextBusName.Minutes, int.Parse),
                 IsDeparture = predictionElement.GetAttributeValue(NextBusName.IsDeparture, bool.Parse),
+                AffectedByLayover = predictionElement.GetAttributeValue(NextBusName.AffectedByLayover, bool.Parse),
                 DirectionTag = predictionElement.GetAttributeValue(NextBusName.DirectionTag),
-                Block = predictionElement.GetAttributeValue(NextBusName.Block)
+                Block = predictionElement.GetAttributeValue(NextBusName.Block),
+                VehicleId = predictionElement.GetAttributeValue(NextBusName.VehicleId)
             };
 
             var epochAttribute = predictionElement.Attribute(NextBusName.EpochTime);
             if (epochAttribute != null)
             {
                 var epochTime = predictionElement.GetAttributeValue(NextBusName.EpochTime, long.Parse);
-                result.DateTimeUtc = EpochStart.AddSeconds(epochTime);
+                result.DateTimeUtc = EpochStart.AddMilliseconds(epochTime);
+            }
+
+            return result;
+        }
+
+        public static Predictions BuildPredictions(XElement predictionsElement)
+        {
+            var result = new Predictions
+            {
+                AgencyTitle = predictionsElement.GetAttributeValue(NextBusName.AgencyTitle),
+                RouteTag = predictionsElement.GetAttributeValue(NextBusName.RouteTag),
+                RouteTitle = predictionsElement.GetAttributeValue(NextBusName.RouteTitle),
+                RouteCode = predictionsElement.GetAttributeValue(NextBusName.RouteCode),
+                StopTag = predictionsElement.GetAttributeValue(NextBusName.StopTag),
+                StopTitle = predictionsElement.GetAttributeValue(NextBusName.StopTitle),
+                DirectionTitleBecauseNoPredictions = predictionsElement.GetAttributeValue(NextBusName.DirTitleBecauseNoPredictions),
+            };
+
+            var directionElements = predictionsElement.Elements(NextBusName.Direction);
+            if (directionElements != Null.OrEmpty)
+            {
+                result.Directions = directionElements.Select(d =>
+                    new Direction
+                    {
+                        Title = d.GetAttributeValue(NextBusName.Title),
+                        Predictions = d.Elements(NextBusName.Prediction)
+                            .Select(BuildPrediction).ToList()
+                    }).ToList();
+            }
+
+            var messageElements = predictionsElement.Elements(NextBusName.Message);
+            if (messageElements != Null.OrEmpty)
+            {
+                result.Messages = messageElements.Select(m =>
+                    new Message
+                    {
+                        Text = m.GetAttributeValue(NextBusName.Text),
+                        Priority = m.GetAttributeValue(NextBusName.Priority)
+                    })
+                    .ToList();
             }
 
             return result;

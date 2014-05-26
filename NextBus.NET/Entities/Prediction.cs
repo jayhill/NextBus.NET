@@ -1,7 +1,7 @@
-using System;
-
 namespace NextBus.NET.Entities
 {
+    using System;
+
     public class Prediction
     {
         /// <summary>
@@ -67,5 +67,10 @@ namespace NextBus.NET.Entities
         /// in traffic.
         /// </summary>
         public bool IsDelayed { get; set; }
+
+        /// <summary>
+        /// The identifier for the vehicle whose arrival is predicted.
+        /// </summary>
+        public string VehicleId { get; set; }
     }
 }

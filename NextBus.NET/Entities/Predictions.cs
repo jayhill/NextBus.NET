@@ -14,6 +14,7 @@ namespace NextBus.NET.Entities
         public string RouteTag { get; set; }
         public string RouteTitle { get; set; }
         public string RouteCode { get; set; }
+        public string StopTag { get; set; }
         public string StopTitle { get; set; }
         public string DirectionTitleBecauseNoPredictions { get; set; }
         public IList<Direction> Directions { get; set; }
