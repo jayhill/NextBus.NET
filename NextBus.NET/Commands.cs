@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace NextBus.NET
+﻿namespace NextBus.NET
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using ApiCommands;
@@ -9,6 +8,12 @@ namespace NextBus.NET
 
     public class Commands
     {
+        public async Task<IEnumerable<Agency>> AgencyList()
+        {
+            var command = new AgencyListCommand();
+            return await command.Execute();
+        }
+
         public async Task<IEnumerable<Route>> RouteList(string agencyTag = null)
         {
             var command = new RouteListCommand();

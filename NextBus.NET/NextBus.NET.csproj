@@ -41,6 +41,7 @@
     <Compile Include="ApiCommands\Infrastructure\StandardBuilders.cs" />
     <Compile Include="ApiCommands\PredictionsForMultiStopsCommand.cs" />
     <Compile Include="ApiCommands\ScheduleCommand.cs" />
+    <Compile Include="Entities\Agency.cs" />
     <Compile Include="Entities\Direction.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\Path.cs" />

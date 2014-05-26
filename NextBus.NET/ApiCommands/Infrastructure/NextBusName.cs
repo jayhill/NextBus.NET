@@ -3,7 +3,7 @@
     public class NextBusName
     {
         public const string AffectedByLayover = "affectedByLayover";
-        public const string AgencyTitle = "agencyTitle";
+        public const string Agency = "agency";
         public const string Block = "block";
         public const string BlockId = "blockID";
         public const string Color = "color";
@@ -25,6 +25,7 @@
         public const string Prediction = "prediction";
         public const string Predictions = "predictions";
         public const string Priority = "priority";
+        public const string RegionTitle = "regionTitle";
         public const string Route = "route";
         public const string RouteCode = "routeCode";
         public const string RouteTag = "routeTag";

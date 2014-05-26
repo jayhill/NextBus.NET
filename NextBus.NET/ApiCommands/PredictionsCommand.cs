@@ -1,4 +1,7 @@
-﻿namespace NextBus.NET.ApiCommands
+﻿using System.Linq;
+using NextBus.NET.Util;
+
+namespace NextBus.NET.ApiCommands
 {
     using System.Collections.Generic;
     using System.Xml.Linq;
@@ -7,7 +10,6 @@
 
     public class PredictionsCommand : CommandBase<Predictions>
     {
-
         private readonly int? _stopId;
         private readonly string _routeTag;
         private readonly string _stopTag;
@@ -56,6 +58,32 @@
         public override string Command
         {
             get { return CommandConstants.Predictions; }
+        }
+    }
+
+    public class AgencyListCommand : CommandBase<IEnumerable<Agency>>
+    {
+        public override string Command
+        {
+            get { return CommandConstants.AgencyList; }
+        }
+
+        protected override IEnumerable<QueryArgument> GetQueryArguments()
+        {
+            yield return new QueryArgument("command", Command);
+        }
+
+        public override IEnumerable<Agency> ConstructResultFrom(XElement body)
+        {
+            return body.Elements(NextBusName.Agency)
+                .Select(x => new Agency
+                {
+                    Tag = x.GetAttributeValue(NextBusName.Tag),
+                    Title = x.GetAttributeValue(NextBusName.Title),
+                    ShortTitle = x.GetAttributeValue(NextBusName.ShortTitle),
+                    RegionTitle = x.GetAttributeValue(NextBusName.RegionTitle)
+                })
+                .ToList();
         }
     }
 }

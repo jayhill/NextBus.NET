@@ -37,7 +37,7 @@
         {
             var result = new Predictions
             {
-                AgencyTitle = predictionsElement.GetAttributeValue(NextBusName.AgencyTitle),
+                AgencyTitle = predictionsElement.GetAttributeValue(NextBusName.Title),
                 RouteTag = predictionsElement.GetAttributeValue(NextBusName.RouteTag),
                 RouteTitle = predictionsElement.GetAttributeValue(NextBusName.RouteTitle),
                 RouteCode = predictionsElement.GetAttributeValue(NextBusName.RouteCode),
