@@ -2,6 +2,7 @@
 {
     public class CommandConstants
     {
+        public const string Messages = "messages";
         public const string AgencyList = "agencyList";
         public const string Predictions = "predictions";
         public const string PredictionsForMultiStops = "predictionsForMultiStops";

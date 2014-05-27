@@ -4,15 +4,22 @@
     {
         public const string AffectedByLayover = "affectedByLayover";
         public const string Agency = "agency";
+        public const string All = "all";
         public const string Block = "block";
         public const string BlockId = "blockID";
         public const string Color = "color";
+        public const string Creator = "creator";
         public const string Direction = "direction";
         public const string DirectionTag = "dirTag";
         public const string DirTitleBecauseNoPredictions = "dirTitleBecauseNoPredictions";
+        public const string EndBoundary = "endBoundary";
+        public const string EndDay = "endDay";
+        public const string EndTime = "endTime";
         public const string EpochTime = "epochTime";
         public const string Error = "Error";
         public const string Header = "header";
+        public const string Id = "id";
+        public const string Interval = "interval";
         public const string IsDeparture = "isDeparture";
         public const string Lat = "lat";
         public const string Lon = "lon";
@@ -21,6 +28,7 @@
         public const string Name = "name";
         public const string OppositeColor = "oppositeColor";
         public const string Path = "path";
+        public const string PhonemeText = "phonemeText";
         public const string Point = "point";
         public const string Prediction = "prediction";
         public const string Predictions = "predictions";
@@ -31,9 +39,14 @@
         public const string RouteTag = "routeTag";
         public const string RouteTitle = "routeTitle";
         public const string Seconds = "seconds";
+        public const string SendToBuses = "sendToBuses";
+        public const string StartBoundary = "startBoundary";
+        public const string StartDay = "startDay";
         public const string StopTag = "stopTag";
+        public const string StartTime = "startTime";
         public const string Tag = "tag";
         public const string Text = "text";
+        public const string TextSecondaryLanguage = "textSecondaryLanguage";
         public const string Title = "title";
         public const string ScheduleClass = "scheduleClass";
         public const string ServiceClass = "serviceClass";

@@ -8,7 +8,6 @@
 
     public class StandardBuilders
     {
-        private static readonly DateTime EpochStart = new DateTime(1970,1,1,0,0,0,0, DateTimeKind.Utc);
 
         public static Prediction BuildPrediction(XElement predictionElement)
         {
@@ -27,7 +26,7 @@
             if (epochAttribute != null)
             {
                 var epochTime = predictionElement.GetAttributeValue(NextBusName.EpochTime, long.Parse);
-                result.DateTimeUtc = EpochStart.AddMilliseconds(epochTime);
+                result.DateTimeUtc = UnixTime.ToDateTimeFrom(epochTime);
             }
 
             return result;

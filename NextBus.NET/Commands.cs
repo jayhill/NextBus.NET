@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using ApiCommands;
     using Entities;
@@ -14,6 +15,17 @@
             return await command.Execute();
         }
 
+        public async Task<Messages> Messages(IEnumerable<string> routeTags, string agencyTag = null)
+        {
+            var command = new MessagesCommand {RouteTags = routeTags.ToList()};
+            if (agencyTag != null)
+            {
+                command.AgencyTag = agencyTag;
+            }
+
+            return await command.Execute();
+        }
+
         public async Task<IEnumerable<Route>> RouteList(string agencyTag = null)
         {
             var command = new RouteListCommand();
@@ -21,6 +33,7 @@
             {
                 command.AgencyTag = agencyTag;
             }
+
             return await command.Execute();
         }
 
