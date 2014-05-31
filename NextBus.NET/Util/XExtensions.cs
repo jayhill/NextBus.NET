@@ -44,7 +44,7 @@
         public static T GetElementValue<T>(this XElement element, string name, Func<string, T> conversion)
         {
             var value = GetElementValue(element, name);
-            if (value == null)
+            if (value == Null.OrEmpty)
                 return default(T);
 
             try

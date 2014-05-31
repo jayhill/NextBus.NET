@@ -43,6 +43,9 @@
     <Compile Include="ApiCommands\MessagesCommand.cs" />
     <Compile Include="ApiCommands\PredictionsForMultiStopsCommand.cs" />
     <Compile Include="ApiCommands\ScheduleCommand.cs" />
+    <Compile Include="ApiCommands\VehicleLocation.cs" />
+    <Compile Include="ApiCommands\VehicleLocations.cs" />
+    <Compile Include="ApiCommands\VehicleLocationsCommand.cs" />
     <Compile Include="Entities\Agency.cs" />
     <Compile Include="Entities\Direction.cs" />
     <Compile Include="Entities\Interval.cs" />

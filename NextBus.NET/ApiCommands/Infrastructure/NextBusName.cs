@@ -1,4 +1,6 @@
-﻿namespace NextBus.NET.ApiCommands.Infrastructure
+﻿using System.Xml.Linq;
+
+namespace NextBus.NET.ApiCommands.Infrastructure
 {
     public class NextBusName
     {
@@ -18,6 +20,7 @@
         public const string EpochTime = "epochTime";
         public const string Error = "Error";
         public const string Header = "header";
+        public const string Heading = "heading";
         public const string Id = "id";
         public const string Interval = "interval";
         public const string IsDeparture = "isDeparture";
@@ -30,6 +33,7 @@
         public const string Path = "path";
         public const string PhonemeText = "phonemeText";
         public const string Point = "point";
+        public const string Predictable = "predictable";
         public const string Prediction = "prediction";
         public const string Predictions = "predictions";
         public const string Priority = "priority";
@@ -49,6 +53,7 @@
         public const string TextSecondaryLanguage = "textSecondaryLanguage";
         public const string Title = "title";
         public const string ScheduleClass = "scheduleClass";
+        public const string SecsSinceLastReport = "secsSinceReport";
         public const string ServiceClass = "serviceClass";
         public const string ShortTitle = "shortTitle";
         public const string ShouldRetry = "shouldRetry";
@@ -59,6 +64,9 @@
         public const string Trip = "tr";
         public const string UseForUi = "useForUI";
         public const string UseShortTitles = "useShortTitles";
+        public const string Vehicle = "vehicle";
         public const string VehicleId = "vehicle";
+        public const string VehicleLocations = "vehicleLocations";
+        public const string LastTime = "lastTime";
     }
 }
