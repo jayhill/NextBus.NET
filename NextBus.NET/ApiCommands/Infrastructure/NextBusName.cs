@@ -57,6 +57,7 @@ namespace NextBus.NET.ApiCommands.Infrastructure
         public const string ServiceClass = "serviceClass";
         public const string ShortTitle = "shortTitle";
         public const string ShouldRetry = "shouldRetry";
+        public const string SpeedKmHr = "speedKmHr";
         public const string Stop = "stop";
         public const string Stops = "stops";
         public const string StopId = "stopId";

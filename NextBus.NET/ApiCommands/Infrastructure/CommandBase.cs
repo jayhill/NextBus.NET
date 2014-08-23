@@ -12,7 +12,19 @@ namespace NextBus.NET.ApiCommands.Infrastructure
 {
     public abstract class CommandBase<TResult> : CommandBase
     {
-        public virtual async Task<TResult> Execute()
+        public virtual TResult Execute()
+        {
+            var body = GetResponse();
+            var error = body.Element(NextBusName.Error);
+            if (error != null)
+            {
+                throw new NextBusException(error.Value);
+            }
+
+            return ConstructResultFrom(body);
+        }
+
+        public virtual async Task<TResult> ExecuteAsync()
         {
             var body = await GetResponseAsync();
             var error = body.Element(NextBusName.Error);
@@ -21,7 +33,7 @@ namespace NextBus.NET.ApiCommands.Infrastructure
                 if (error.GetAttributeValue(NextBusName.ShouldRetry, bool.Parse))
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1));
-                    return await Execute();
+                    return await ExecuteAsync();
                 }
                 throw new NextBusException(error.Value);
             }
@@ -60,6 +72,22 @@ namespace NextBus.NET.ApiCommands.Infrastructure
             set { _baseUri = value; }
         }
         private Uri _baseUri;
+
+        /// <summary>
+        /// Gets the request stream synchronously.
+        /// </summary>
+        protected virtual XElement GetResponse()
+        {
+            var uri = ConstructUri();
+            var webRequest = WebRequest.CreateHttp(uri);
+
+            using (var webResponse = Task.Factory.FromAsync(
+                webRequest.BeginGetResponse, x => (HttpWebResponse)webRequest.EndGetResponse(x), null).Result)
+            using (var response = webResponse.GetResponseStream())
+            {
+                return XElement.Load(response);
+            }
+        }
 
         /// <summary>
         /// Gets the request stream asynchronously.

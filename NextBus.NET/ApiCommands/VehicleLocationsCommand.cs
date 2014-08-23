@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using NextBus.NET.ApiCommands.Infrastructure;
@@ -42,15 +43,17 @@ namespace NextBus.NET.ApiCommands
                     Heading = x.GetAttributeValue(NextBusName.Heading, int.Parse),
                     IsPredictable = x.GetAttributeValue(NextBusName.Predictable, bool.Parse),
                     RouteTag = x.GetAttributeValue(NextBusName.RouteTag),
-                    SecondsSinceLastReport = x.GetAttributeValue(NextBusName.SecsSinceLastReport, int.Parse)
+                    RouteTitle = x.GetAttributeValue(NextBusName.RouteTag), // this is not in the response; it should be overwritten later
+                    SecondsSinceLastReport = x.GetAttributeValue(NextBusName.SecsSinceLastReport, int.Parse),
+                    SpeedKmH = x.GetAttributeValue(NextBusName.SpeedKmHr, double.Parse)
                 }).ToList();
 
             var lastTimeInEpoch = body.GetElementValue(NextBusName.LastTime, long.Parse);
-            var lastTime = UnixTime.ToDateTimeFrom(lastTimeInEpoch);
+            var lastTime = lastTimeInEpoch == 0 ? DateTime.UtcNow : UnixTime.ToDateTimeFrom(lastTimeInEpoch);
             return new VehicleLocations
             {
                 Locations = vehicleLocations,
-                LastTime = lastTime
+                LastTimeUtc = lastTime
             };
         }
     }

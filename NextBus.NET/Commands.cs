@@ -9,13 +9,23 @@
 
     public class Commands
     {
-        public async Task<IEnumerable<Agency>> AgencyList()
+        public IEnumerable<Agency> AgencyList()
         {
-            var command = new AgencyListCommand();
-            return await command.Execute();
+            return AgencyListAsync().Result;
         }
 
-        public async Task<Messages> Messages(IEnumerable<string> routeTags, string agencyTag = null)
+        public async Task<IEnumerable<Agency>> AgencyListAsync()
+        {
+            var command = new AgencyListCommand();
+            return await command.ExecuteAsync();
+        }
+
+        public Messages Messages(IEnumerable<string> routeTags, string agencyTag = null)
+        {
+            return MessagesAsync(routeTags, agencyTag).Result;
+        }
+
+        public async Task<Messages> MessagesAsync(IEnumerable<string> routeTags, string agencyTag = null)
         {
             var command = new MessagesCommand {RouteTags = routeTags.ToList()};
             if (agencyTag != null)
@@ -23,10 +33,15 @@
                 command.AgencyTag = agencyTag;
             }
 
-            return await command.Execute();
+            return await command.ExecuteAsync();
         }
 
-        public async Task<IEnumerable<Route>> RouteList(string agencyTag = null)
+        public IEnumerable<Route> RouteList(string agencyTag = null)
+        {
+            return RouteListAsync(agencyTag).Result;
+        }
+
+        public async Task<IEnumerable<Route>> RouteListAsync(string agencyTag = null)
         {
             var command = new RouteListCommand();
             if (agencyTag != null)
@@ -34,10 +49,15 @@
                 command.AgencyTag = agencyTag;
             }
 
-            return await command.Execute();
+            return await command.ExecuteAsync();
         }
 
-        public async Task<Route> RouteConfig(string routeTag, string agencyTag = null)
+        public Route RouteConfig(string routeTag, string agencyTag = null)
+        {
+            return RouteConfigAsync(routeTag, agencyTag).Result;
+        }
+
+        public async Task<Route> RouteConfigAsync(string routeTag, string agencyTag = null)
         {
             var command = new RouteConfigCommand(routeTag);
             if (agencyTag != null)
@@ -45,10 +65,15 @@
                 command.AgencyTag = agencyTag;
             }
 
-            return await command.Execute();
+            return await command.ExecuteAsync();
         }
 
-        public async Task<Predictions> Predictions(string routeTag, string stopTag, bool useShortTitles = false, string agencyTag = null)
+        public Predictions Predictions(string routeTag, string stopTag, bool useShortTitles = false, string agencyTag = null)
+        {
+            return PredictionsAsync(routeTag, stopTag, useShortTitles, agencyTag).Result;
+        }
+
+        public async Task<Predictions> PredictionsAsync(string routeTag, string stopTag, bool useShortTitles = false, string agencyTag = null)
         {
             var command = new PredictionsCommand(routeTag, stopTag)
             {
@@ -60,10 +85,15 @@
                 command.AgencyTag = agencyTag;
             }
 
-            return await command.Execute();
+            return await command.ExecuteAsync();
         }
 
-        public async Task<Predictions> Predictions(int stopId, bool useShortTitles = false, string agencyTag = null)
+        public Predictions Predictions(int stopId, bool useShortTitles = false, string agencyTag = null)
+        {
+            return PredictionsAsync(stopId, useShortTitles, agencyTag).Result;
+        }
+
+        public async Task<Predictions> PredictionsAsync(int stopId, bool useShortTitles = false, string agencyTag = null)
         {
             var command = new PredictionsCommand(stopId)
             {
@@ -75,10 +105,15 @@
                 command.AgencyTag = agencyTag;
             }
 
-            return await command.Execute();
+            return await command.ExecuteAsync();
         }
 
-        public async Task<IEnumerable<Predictions>> PredictionsForMultiStops(string agencyTag, bool useShortTitles = false, params StopArg[] stops)
+        public IEnumerable<Predictions> PredictionsForMultiStops(string agencyTag, bool useShortTitles = false, params StopArg[] stops)
+        {
+            return PredictionsForMultiStopsAsync(agencyTag, useShortTitles, stops).Result;
+        }
+
+        public async Task<IEnumerable<Predictions>> PredictionsForMultiStopsAsync(string agencyTag, bool useShortTitles = false, params StopArg[] stops)
         {
             var command = new PredictionsForMultiStopsCommand
             {
@@ -91,20 +126,35 @@
                 command.AgencyTag = agencyTag;
             }
 
-            return await command.Execute();
+            return await command.ExecuteAsync();
         }
 
-        public async Task<IEnumerable<Predictions>> PredictionsForMultiStops(bool useShortTitles = false, params StopArg[] stops)
+        public IEnumerable<Predictions> PredictionsForMultiStops(bool useShortTitles = false, params StopArg[] stops)
         {
-            return await PredictionsForMultiStops(null, useShortTitles, stops);
+            return PredictionsForMultiStopsAsync(useShortTitles, stops).Result;
         }
 
-        public async Task<IEnumerable<Predictions>> PredictionsForMultiStops(params StopArg[] stops)
+        public async Task<IEnumerable<Predictions>> PredictionsForMultiStopsAsync(bool useShortTitles = false, params StopArg[] stops)
         {
-            return await PredictionsForMultiStops(null, false, stops);
+            return await PredictionsForMultiStopsAsync(null, useShortTitles, stops);
         }
 
-        public async Task<RouteSchedules> Schedule(string routeTag, DateTime date, string agencyTag = null)
+        public IEnumerable<Predictions> PredictionsForMultiStops(params StopArg[] stops)
+        {
+            return PredictionsForMultiStopsAsync(stops).Result;
+        }
+
+        public async Task<IEnumerable<Predictions>> PredictionsForMultiStopsAsync(params StopArg[] stops)
+        {
+            return await PredictionsForMultiStopsAsync(null, false, stops);
+        }
+
+        public RouteSchedules Schedule(string routeTag, DateTime date, string agencyTag = null)
+        {
+            return ScheduleAsync(routeTag, date, agencyTag).Result;
+        }
+
+        public async Task<RouteSchedules> ScheduleAsync(string routeTag, DateTime date, string agencyTag = null)
         {
             var command = new ScheduleCommand(routeTag);
             if (agencyTag != null)
@@ -112,7 +162,7 @@
                 command.AgencyTag = agencyTag;
             }
 
-            return await command.Execute();
+            return await command.ExecuteAsync();
         }
     }
 }

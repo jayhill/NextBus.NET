@@ -42,8 +42,8 @@
             }
             else
             {
-                yield return new QueryArgument(NextBusName.RouteTag, _routeTag);
-                yield return new QueryArgument(NextBusName.StopTag, _stopTag);
+                yield return new QueryArgument("r", _routeTag);
+                yield return new QueryArgument("s", _stopTag);
             }
 
             if (UseShortTitles)
